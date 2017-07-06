@@ -10,8 +10,15 @@ RUN echo "deb http://download.mono-project.com/repo/debian jessie/snapshots/$MON
 
 RUN apt-get update -y
 RUN apt-get install -y binutils mono-devel ca-certificates-mono nuget referenceassemblies-pcl
-RUN apt-get install -y default-jdk         # for jenkins
-RUN apt-get install -y python git gettext  # utils
+RUN apt-get install -y default-jdk        # for jenkins
+RUN apt-get install -y python git gettext # utils
+RUN apt-get install -y libunwind8 libicu-dev liblttng-ust-dev # for dotnet core
+
+# dotnet core
+RUN curl -sSL -o dotnet.tar.gz https://go.microsoft.com/fwlink/?linkid=848826
+RUN mkdir -p /opt/dotnet
+RUN tar xzf dotnet.tar.gz -C /opt/dotnet
+RUN ln -s /opt/dotnet/dotnet /usr/local/bin
 
 # set environment variables
 ENV CLOUDSDK_CORE_DISABLE_PROMPTS 1
